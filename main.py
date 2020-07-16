@@ -3,7 +3,7 @@ import os
 import requests
 
 
-def download_book_from_tululu(book_id, ext='txt', allow_redirects=False):
+def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
     if ext not in {'txt', 'zip', 'jar'}:
         raise TypeError('File must have ".txt", ".zip" or ".jar" ext.')
 
@@ -11,7 +11,6 @@ def download_book_from_tululu(book_id, ext='txt', allow_redirects=False):
 
     file_name = '{book_id}.{ext}'.format(book_id=book_id, ext=ext)
 
-    book_dir = 'books'
     os.makedirs(book_dir, exist_ok=True)
     file_path = os.path.join(book_dir, file_name)
 
