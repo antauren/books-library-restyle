@@ -2,8 +2,12 @@ import os
 
 import requests
 
+from pathvalidate import sanitize_filename
+
 
 def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
+    book_dir = sanitize_filename(book_dir)
+
     if ext not in {'txt', 'zip', 'jar'}:
         raise TypeError('File must have ".txt", ".zip" or ".jar" ext.')
 
@@ -18,6 +22,8 @@ def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_di
 
 
 def download_file(url, file_path='', allow_redirects=False):
+    file_path = sanitize_filename(file_path)
+
     if not file_path:
         raise NameError('File must have name.')
 
