@@ -4,6 +4,8 @@ import requests
 
 from pathvalidate import sanitize_filename
 
+from tululu_parser import get_book_title, get_name_and_author_from_title
+
 
 def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
     book_dir = sanitize_filename(book_dir)
@@ -13,7 +15,15 @@ def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_di
 
     url = 'http://tululu.org/{ext}.php?id={book_id}'.format(book_id=book_id, ext=ext)
 
-    file_name = '{book_id}.{ext}'.format(book_id=book_id, ext=ext)
+    try:
+        book_title = get_book_title(book_id)
+        name, _ = get_name_and_author_from_title(book_title)
+
+        book_name = '{}_id{}'.format(name, book_id)
+    except AttributeError:
+        book_name = book_id
+
+    file_name = '{book_name}.{ext}'.format(book_name=sanitize_filename(book_name), ext=ext)
 
     os.makedirs(book_dir, exist_ok=True)
     file_path = os.path.join(book_dir, file_name)
