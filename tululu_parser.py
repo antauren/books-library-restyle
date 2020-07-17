@@ -1,4 +1,5 @@
 import requests
+from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
@@ -15,8 +16,13 @@ def get_book_data(book_id):
 
     name, author = get_name_and_author_from_title(h1.text)
 
+    div = soup.find('div', class_='bookimage')
+    img_src = div.a.img['src']
+    img_url = urljoin('http://tululu.org', img_src)
+
     return {'name': name,
             'author': author,
+            'img_url': img_url,
             }
 
 
