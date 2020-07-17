@@ -20,9 +20,12 @@ def get_book_data(book_id):
     img_src = div.a.img['src']
     img_url = urljoin('http://tululu.org', img_src)
 
+    comments = [comment.span.text for comment in soup.find_all('div', class_='texts')]
+
     return {'name': name,
             'author': author,
             'img_url': img_url,
+            'comments': comments,
             }
 
 
