@@ -32,8 +32,6 @@ def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_di
 
 
 def download_file(url, file_path='', allow_redirects=False):
-    file_path = sanitize_filename(file_path)
-
     if not file_path:
         raise NameError('File must have name.')
 
