@@ -4,7 +4,7 @@ import requests
 
 from pathvalidate import sanitize_filename
 
-from tululu_parser import get_book_title, get_name_and_author_from_title
+from tululu_parser import get_book_data
 
 
 def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
@@ -16,8 +16,8 @@ def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_di
     url = 'http://tululu.org/{ext}.php?id={book_id}'.format(book_id=book_id, ext=ext)
 
     try:
-        book_title = get_book_title(book_id)
-        name, _ = get_name_and_author_from_title(book_title)
+        book = get_book_data(book_id)
+        name = book['name']
 
         book_name = '{}_id{}'.format(name, book_id)
     except AttributeError:
