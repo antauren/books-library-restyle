@@ -16,7 +16,7 @@ def get_book_data(book_id):
     name, author = get_name_and_author_from_title(h1.text)
 
     return {'name': name,
-            'author': author
+            'author': author,
             }
 
 
