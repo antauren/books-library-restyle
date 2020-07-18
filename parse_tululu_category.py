@@ -11,15 +11,7 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
 
     soup = BeautifulSoup(response.text, 'lxml')
 
-    book_tables = soup.find_all('table', class_='d_book')
-
-    book_ids = set()
-    for table in book_tables:
-        book_title = table.find_all('tr')[1]
-        book_href = book_title.td.a['href']
-        book_id = int(book_href[2: -1])
-
-        book_ids.add(book_id)
+    book_ids = {int(anchor['href'][2: -1]) for anchor in soup.select('.bookimage a')}
 
     last_page = end_page or int(soup.find_all('a', class_='npage')[-1].text)
 
