@@ -20,7 +20,7 @@ def get_book_data(book_id):
     img_url = urljoin('http://tululu.org', img_src)
 
     comments = [comment.text for comment in soup.select('.texts .black')]
-    genres = [genre.text for genre in soup.find('span', class_='d_book').find_all('a')]
+    genres = [anchor.text for anchor in soup.find(text='Жанр книги:').parent.findNextSiblings('a')]
 
     return {'name': name,
             'author': author,
