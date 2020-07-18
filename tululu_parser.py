@@ -16,8 +16,7 @@ def get_book_data(book_id):
 
     name, author = get_name_and_author_from_title(h1.text)
 
-    div = soup.find('div', class_='bookimage')
-    img_src = div.a.img['src']
+    img_src = soup.select_one('.bookimage a img')['src']
     img_url = urljoin('http://tululu.org', img_src)
 
     comments = [comment.text for comment in soup.select('.texts .black')]
