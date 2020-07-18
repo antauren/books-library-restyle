@@ -13,7 +13,7 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
 
     book_ids = {int(anchor['href'][2: -1]) for anchor in soup.select('.bookimage a')}
 
-    last_page = end_page or int(soup.find_all('a', class_='npage')[-1].text)
+    last_page = end_page or int(soup.select('.npage')[-1].text)
 
     if start_page < last_page:
         book_ids.update(get_book_ids_by_genre(genre_id, start_page=start_page + 1, end_page=end_page))
