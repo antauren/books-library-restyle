@@ -71,3 +71,19 @@ def download_txt(url, filename, folder='books'):
     download_file(url, file_path)
 
     return file_path
+
+
+def download_book(book_id):
+    book_data = get_book_data(book_id)
+
+    filename = '{}_id{}'.format(book_data['title'], book_id)
+    sanitized_filename = sanitize_filename(filename)
+
+    return {'title': book_data['title'],
+            'author': book_data['author'],
+            'comments': book_data['comments'],
+            'genres': book_data['genres'],
+
+            'img_src': download_image(book_data['img_url']),
+            'book_path': download_txt(url=book_data['txt_url'], filename=sanitized_filename),
+            }
