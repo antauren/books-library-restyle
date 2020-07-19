@@ -57,3 +57,13 @@ def download_image(url, folder='images'):
         pass
     else:
         download_file(url, file_path)
+
+
+def download_txt(url, filename, folder='books'):
+    os.makedirs(folder, exist_ok=True)
+
+    file_path = os.path.join(folder,
+                             '{}.txt'.format(filename)
+                             )
+
+    download_file(url, file_path)
