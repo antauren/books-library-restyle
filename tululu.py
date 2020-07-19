@@ -58,6 +58,8 @@ def download_image(url, folder='images'):
     else:
         download_file(url, file_path)
 
+    return file_path
+
 
 def download_txt(url, filename, folder='books'):
     os.makedirs(folder, exist_ok=True)
@@ -67,3 +69,5 @@ def download_txt(url, filename, folder='books'):
                              )
 
     download_file(url, file_path)
+
+    return file_path
