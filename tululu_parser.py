@@ -21,11 +21,14 @@ def get_book_data(book_id):
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres = [anchor.text for anchor in soup.find(text='Жанр книги:').parent.findNextSiblings('a')]
 
+    txt_url = 'http://tululu.org/txt.php?id={book_id}'.format(book_id=book_id)
+
     return {'title': title,
             'author': author,
             'img_url': img_url,
             'comments': comments,
             'genres': genres,
+            'txt_url': txt_url,
             }
 
 
