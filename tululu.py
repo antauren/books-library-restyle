@@ -46,7 +46,7 @@ def download_file(url, file_path='', allow_redirects=False):
         fd.write(response.content)
 
 
-def download_image(url, folder='images', allow_redirects=False):
+def download_image(url, folder='images'):
     os.makedirs(folder, exist_ok=True)
 
     path = urlparse(url).path
@@ -56,4 +56,4 @@ def download_image(url, folder='images', allow_redirects=False):
     if file_name == 'nopic.gif' and os.path.exists(file_path) and os.path.isfile(file_path):
         pass
     else:
-        download_file(url, file_path, allow_redirects)
+        download_file(url, file_path)
