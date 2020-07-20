@@ -1,3 +1,4 @@
+import os
 import json
 
 import argparse
@@ -26,7 +27,7 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
     return book_ids
 
 
-def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False, skip_txt=False):
+def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False, skip_txt=False, json_path=''):
     book_ids = get_book_ids_by_genre(genre_id, start_page, end_page)
 
     downloaded_books = []
@@ -43,7 +44,7 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False,
             tqdm.write('{} Error'.format(book_url))
             continue
 
-    json_filename = '{}.json'.format(genre_id)
+    json_filename = os.path.join(json_path, '{}.json'.format(genre_id))
     with open(json_filename, 'w', encoding='utf-8') as fd:
         json.dump(downloaded_books, fd, indent=4, ensure_ascii=False)
 
@@ -68,6 +69,7 @@ def parse_args():
 
     parser.add_argument('--skip_imgs', action='store_const', const=True)
     parser.add_argument('--skip_txt', action='store_const', const=True)
+    parser.add_argument('--json_path', type=str, default='')
 
     return parser.parse_args()
 
