@@ -1,14 +1,11 @@
 import os
 
-import json
 import requests
 from urllib.parse import urlparse
 
-from tqdm import tqdm
 from pathvalidate import sanitize_filename
 
 from tululu_parser import get_book_data
-from parse_tululu_category import get_book_ids_by_genre
 
 
 def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
@@ -90,23 +87,3 @@ def download_book(book_id):
             'img_src': download_image(book_data['img_url']),
             'book_path': download_txt(url=book_data['txt_url'], filename=sanitized_filename),
             }
-
-
-def download_books_by_genre(genre_id, start_page=1, end_page=0):
-    book_ids = get_book_ids_by_genre(genre_id, start_page, end_page)
-
-    downloaded_books = []
-    for book_id in tqdm(book_ids, desc='download_books'):
-        try:
-            book = download_book(book_id)
-            downloaded_books.append(book)
-        except TypeError:
-            error = 'The book (id_{}) was not downloaded.'.format(book_id)
-            tqdm.write(error)
-            continue
-
-    json_filename = '{}.json'.format(genre_id)
-    with open(json_filename, 'w', encoding='utf-8') as fd:
-        json.dump(downloaded_books, fd, indent=4, ensure_ascii=False)
-
-    return json_filename
