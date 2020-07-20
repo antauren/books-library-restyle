@@ -1,7 +1,6 @@
-import requests
-
 import json
 
+import requests
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 
