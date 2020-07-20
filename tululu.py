@@ -79,11 +79,14 @@ def download_book(book_id, skip_imgs=False, skip_txt=False):
     filename = '{}_id{}'.format(book_data['title'], book_id)
     sanitized_filename = sanitize_filename(filename)
 
+    img_src = download_image(book_data['img_url']) if not skip_imgs else None
+    book_path = download_txt(url=book_data['txt_url'], filename=sanitized_filename) if not skip_txt else None
+
     return {'title': book_data['title'],
             'author': book_data['author'],
             'comments': book_data['comments'],
             'genres': book_data['genres'],
 
-            'img_src': download_image(book_data['img_url']) if not skip_imgs else None,
-            'book_path': download_txt(url=book_data['txt_url'], filename=sanitized_filename) if not skip_txt else None,
+            'img_src': img_src,
+            'book_path': book_path,
             }
