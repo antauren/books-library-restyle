@@ -9,6 +9,7 @@ from tululu_parser import get_book_data
 
 download_folder = 'downloads'
 
+
 def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
     book_dir = sanitize_filename(book_dir)
 

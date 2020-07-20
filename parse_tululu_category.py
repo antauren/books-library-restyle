@@ -27,7 +27,11 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
     return book_ids
 
 
-def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False, skip_txt=False, json_path='', dest_folder='downloads'):
+def download_books_by_genre(genre_id, start_page=1, end_page=0,
+                            skip_imgs=False,
+                            skip_txt=False,
+                            json_path='',
+                            dest_folder='downloads'):
     book_ids = get_book_ids_by_genre(genre_id, start_page, end_page)
 
     downloaded_books = []
@@ -80,7 +84,11 @@ def parse_args():
 def main():
     args = parse_args()
 
-    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page, args.skip_imgs, args.skip_txt, json_path=args.json_path, dest_folder=args.dest_folder)
+    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page,
+                                        args.skip_imgs,
+                                        args.skip_txt,
+                                        json_path=args.json_path,
+                                        dest_folder=args.dest_folder)
 
     print(json_path)
 
