@@ -7,6 +7,7 @@ from pathvalidate import sanitize_filename
 
 from tululu_parser import get_book_data
 
+download_folder = 'downloads'
 
 def download_book_from_tululu(book_id, ext='txt', allow_redirects=False, book_dir='books'):
     book_dir = sanitize_filename(book_dir)
@@ -47,6 +48,7 @@ def download_file(url, file_path='', allow_redirects=False):
 
 
 def download_image(url, folder='images'):
+    folder = os.path.join(download_folder, folder)
     os.makedirs(folder, exist_ok=True)
 
     path = urlparse(url).path
@@ -62,6 +64,7 @@ def download_image(url, folder='images'):
 
 
 def download_txt(url, filename, folder='books'):
+    folder = os.path.join(download_folder, folder)
     os.makedirs(folder, exist_ok=True)
 
     file_path = os.path.join(folder,
@@ -73,7 +76,10 @@ def download_txt(url, filename, folder='books'):
     return file_path
 
 
-def download_book(book_id, skip_imgs=False, skip_txt=False):
+def download_book(book_id, skip_imgs=False, skip_txt=False, dest_folder='downloads'):
+    global download_folder
+    download_folder = dest_folder
+
     book_data = get_book_data(book_id)
 
     filename = '{}_id{}'.format(book_data['title'], book_id)
@@ -87,6 +93,6 @@ def download_book(book_id, skip_imgs=False, skip_txt=False):
             'comments': book_data['comments'],
             'genres': book_data['genres'],
 
-            'img_src': img_src,
-            'book_path': book_path,
+            'img_src': os.path.join(dest_folder, img_src),
+            'book_path': os.path.join(dest_folder, book_path),
             }

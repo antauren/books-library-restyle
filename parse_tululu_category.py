@@ -27,7 +27,7 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
     return book_ids
 
 
-def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False, skip_txt=False, json_path=''):
+def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False, skip_txt=False, json_path='', dest_folder='downloads'):
     book_ids = get_book_ids_by_genre(genre_id, start_page, end_page)
 
     downloaded_books = []
@@ -36,7 +36,7 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False,
         book_url = 'http://tululu.org/b{}/'.format(book_id)
 
         try:
-            book = download_book(book_id, skip_imgs, skip_txt)
+            book = download_book(book_id, skip_imgs, skip_txt, dest_folder)
             downloaded_books.append(book)
 
             tqdm.write('{} OK'.format(book_url))
@@ -44,7 +44,8 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False,
             tqdm.write('{} Error'.format(book_url))
             continue
 
-    json_filename = os.path.join(json_path, '{}.json'.format(genre_id))
+    os.makedirs(dest_folder, exist_ok=True)
+    json_filename = os.path.join(dest_folder, json_path, '{}.json'.format(genre_id))
     with open(json_filename, 'w', encoding='utf-8') as fd:
         json.dump(downloaded_books, fd, indent=4, ensure_ascii=False)
 
@@ -70,6 +71,7 @@ def parse_args():
     parser.add_argument('--skip_imgs', action='store_const', const=True)
     parser.add_argument('--skip_txt', action='store_const', const=True)
     parser.add_argument('--json_path', type=str, default='')
+    parser.add_argument('--dest_folder', type=str, default='downloads', help='destination folder')
 
     return parser.parse_args()
 
@@ -77,7 +79,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page, args.skip_imgs, args.skip_txt)
+    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page, args.skip_imgs, args.skip_txt, dest_folder=args.dest_folder)
 
     print(json_path)
 
