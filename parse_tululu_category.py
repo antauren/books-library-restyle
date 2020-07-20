@@ -48,7 +48,7 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0,
             tqdm.write('{} Error'.format(book_url))
             continue
 
-    json_folder = os.path.join(dest_folder, json_path)
+    json_folder = json_path or dest_folder
     os.makedirs(json_folder, exist_ok=True)
     json_filename = os.path.join(json_folder, '{}.json'.format(genre_id))
     with open(json_filename, 'w', encoding='utf-8') as fd:
