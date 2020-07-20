@@ -73,7 +73,7 @@ def download_txt(url, filename, folder='books'):
     return file_path
 
 
-def download_book(book_id):
+def download_book(book_id, skip_imgs=False, skip_txt=False):
     book_data = get_book_data(book_id)
 
     filename = '{}_id{}'.format(book_data['title'], book_id)
@@ -84,6 +84,6 @@ def download_book(book_id):
             'comments': book_data['comments'],
             'genres': book_data['genres'],
 
-            'img_src': download_image(book_data['img_url']),
-            'book_path': download_txt(url=book_data['txt_url'], filename=sanitized_filename),
+            'img_src': download_image(book_data['img_url']) if not skip_imgs else None,
+            'book_path': download_txt(url=book_data['txt_url'], filename=sanitized_filename) if not skip_txt else None,
             }

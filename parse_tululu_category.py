@@ -26,7 +26,7 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
     return book_ids
 
 
-def download_books_by_genre(genre_id, start_page=1, end_page=0):
+def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False, skip_txt=False):
     book_ids = get_book_ids_by_genre(genre_id, start_page, end_page)
 
     downloaded_books = []
@@ -35,7 +35,7 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0):
         book_url = 'http://tululu.org/b{}/'.format(book_id)
 
         try:
-            book = download_book(book_id)
+            book = download_book(book_id, skip_imgs, skip_txt)
             downloaded_books.append(book)
 
             tqdm.write('{} OK'.format(book_url))
@@ -66,13 +66,16 @@ def parse_args():
     parser.add_argument('--start_page', type=int, default=1)
     parser.add_argument('--end_page', type=int, default=1)
 
+    parser.add_argument('--skip_imgs', action='store_const', const=True)
+    parser.add_argument('--skip_txt', action='store_const', const=True)
+
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
-    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page)
+    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page, args.skip_imgs, args.skip_txt)
 
     print(json_path)
 
