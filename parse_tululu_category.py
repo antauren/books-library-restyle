@@ -1,5 +1,6 @@
 import json
 
+import argparse
 import requests
 from tqdm import tqdm
 from bs4 import BeautifulSoup
@@ -43,3 +44,34 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0):
         json.dump(downloaded_books, fd, indent=4, ensure_ascii=False)
 
     return json_filename
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='''\
+            Данный скрипт скачивает книги определенного жанра с сайта http://tululu.org/.
+            
+            Жанр по умолчанию - фантастика (genre_id=55).
+            Чтобы скачать ВСЕ книги выбранного жанра, нужно указать параметр `--end_page 0`.
+            '''
+    )
+
+    fantastic_genre_id = 55
+
+    parser.add_argument('--genre_id', type=int, default=fantastic_genre_id)
+    parser.add_argument('--start_page', type=int, default=1)
+    parser.add_argument('--end_page', type=int, default=1)
+
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page)
+
+    print(json_path)
+
+
+if __name__ == '__main__':
+    main()
