@@ -31,12 +31,16 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0):
 
     downloaded_books = []
     for book_id in tqdm(book_ids, desc='download_books'):
+
+        book_url = 'http://tululu.org/b{}/'.format(book_id)
+
         try:
             book = download_book(book_id)
             downloaded_books.append(book)
+
+            tqdm.write('{} OK'.format(book_url))
         except TypeError:
-            error = 'The book (id_{}) was not downloaded.'.format(book_id)
-            tqdm.write(error)
+            tqdm.write('{} Error'.format(book_url))
             continue
 
     json_filename = '{}.json'.format(genre_id)
