@@ -44,8 +44,9 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0, skip_imgs=False,
             tqdm.write('{} Error'.format(book_url))
             continue
 
-    os.makedirs(dest_folder, exist_ok=True)
-    json_filename = os.path.join(dest_folder, json_path, '{}.json'.format(genre_id))
+    json_folder = os.path.join(dest_folder, json_path)
+    os.makedirs(json_folder, exist_ok=True)
+    json_filename = os.path.join(json_folder, '{}.json'.format(genre_id))
     with open(json_filename, 'w', encoding='utf-8') as fd:
         json.dump(downloaded_books, fd, indent=4, ensure_ascii=False)
 
@@ -79,7 +80,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page, args.skip_imgs, args.skip_txt, dest_folder=args.dest_folder)
+    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page, args.skip_imgs, args.skip_txt, json_path=args.json_path, dest_folder=args.dest_folder)
 
     print(json_path)
 
