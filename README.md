@@ -3,7 +3,7 @@
 Данный скрипт скачивает книги определенного жанра с сайта http://tululu.org/.  
 А именно: текст, обложку, комментарии и т.д.
 
-<img src="screenshots/screenshot.png"/>
+<img src="screenshots/screenshot_1.png"/>
 
 ### Как установить
 
