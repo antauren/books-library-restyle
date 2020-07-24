@@ -7,8 +7,6 @@ from pathvalidate import sanitize_filename
 
 from tululu_parser import get_book_data
 
-download_folder = 'downloads'
-
 
 def download_file(url, file_path='', allow_redirects=False):
     if not file_path:
@@ -25,7 +23,6 @@ def download_file(url, file_path='', allow_redirects=False):
 
 
 def download_image(url, folder='images'):
-    folder = os.path.join(download_folder, folder)
     os.makedirs(folder, exist_ok=True)
 
     path = urlparse(url).path
@@ -41,7 +38,6 @@ def download_image(url, folder='images'):
 
 
 def download_txt(url, filename, folder='books'):
-    folder = os.path.join(download_folder, folder)
     os.makedirs(folder, exist_ok=True)
 
     file_path = os.path.join(folder,
@@ -54,16 +50,17 @@ def download_txt(url, filename, folder='books'):
 
 
 def download_book(book_id, skip_imgs=False, skip_txt=False, dest_folder='downloads'):
-    global download_folder
-    download_folder = dest_folder
-
     book_data = get_book_data(book_id)
 
     filename = '{}_id{}'.format(book_data['title'], book_id)
     sanitized_filename = sanitize_filename(filename)
 
-    img_src = download_image(book_data['img_url']) if not skip_imgs else None
-    book_path = download_txt(url=book_data['txt_url'], filename=sanitized_filename) if not skip_txt else None
+    img_dir = os.path.join(dest_folder, 'images')
+    book_dir = os.path.join(dest_folder, 'books')
+
+    img_src = download_image(book_data['img_url'], folder=img_dir) if not skip_imgs else None
+    book_path = download_txt(url=book_data['txt_url'], folder=book_dir,
+                             filename=sanitized_filename) if not skip_txt else None
 
     return {'title': book_data['title'],
             'author': book_data['author'],
