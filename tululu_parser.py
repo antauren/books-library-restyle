@@ -3,11 +3,9 @@ from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
-HOSTNAME = 'http://tululu.org'
 
-
-def get_book_data(book_id):
-    url = '{hostname}/b{book_id}/'.format(hostname=HOSTNAME, book_id=book_id)
+def get_book_data(book_id, hostname='http://tululu.org'):
+    url = '{hostname}/b{book_id}/'.format(hostname=hostname, book_id=book_id)
 
     response = requests.get(url)
     response.raise_for_status()
@@ -18,12 +16,12 @@ def get_book_data(book_id):
     title, author = get_name_and_author_from_title(h1.text)
 
     img_src = soup.select_one('.bookimage a img')['src']
-    img_url = urljoin(HOSTNAME, img_src)
+    img_url = urljoin(hostname, img_src)
 
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres = [anchor.text for anchor in soup.find(text='Жанр книги:').parent.findNextSiblings('a')]
 
-    txt_url = '{hostname}/txt.php?id={book_id}'.format(hostname=HOSTNAME, book_id=book_id)
+    txt_url = '{hostname}/txt.php?id={book_id}'.format(hostname=hostname, book_id=book_id)
 
     return {'title': title,
             'author': author,
