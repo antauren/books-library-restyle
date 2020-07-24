@@ -103,7 +103,7 @@ def main():
                                         json_path=args.json_path,
                                         dest_folder=args.dest_folder)
 
-    print(json_path)
+    tqdm.write('{}'.format(json_path))
 
 
 if __name__ == '__main__':
