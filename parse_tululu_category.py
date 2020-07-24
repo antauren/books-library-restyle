@@ -44,6 +44,10 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0,
             downloaded_books.append(book)
 
             tqdm.write('{} OK'.format(book_url))
+
+        except (requests.exceptions.ConnectionError, requests.exceptions.ChunkedEncodingError, ConnectionError) as err:
+            pass
+
         except requests.HTTPError:
             tqdm.write('{} Error'.format(book_url))
             continue
