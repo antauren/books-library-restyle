@@ -8,10 +8,7 @@ from pathvalidate import sanitize_filename
 from tululu_parser import get_book_data
 
 
-def download_file(url, file_path='', allow_redirects=False):
-    if not file_path:
-        raise NameError('File must have name.')
-
+def download_file(url, file_path, allow_redirects=False):
     response = requests.get(url, allow_redirects=allow_redirects)
     raise_for_status(response)
 
