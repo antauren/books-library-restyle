@@ -97,11 +97,15 @@ def parse_args():
 def main():
     args = parse_args()
 
-    json_path = download_books_by_genre(args.genre_id, args.start_page, args.end_page,
-                                        args.skip_imgs,
-                                        args.skip_txt,
-                                        json_path=args.json_path,
-                                        dest_folder=args.dest_folder)
+    json_path = download_books_by_genre(
+        args.genre_id,
+        args.start_page,
+        args.end_page,
+        args.skip_imgs,
+        args.skip_txt,
+        json_path=args.json_path,
+        dest_folder=args.dest_folder
+    )
 
     tqdm.write('{}'.format(json_path))
 
