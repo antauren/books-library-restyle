@@ -89,7 +89,7 @@ def parse_args():
     parser.add_argument('--skip_imgs', action='store_const', const=True)
     parser.add_argument('--skip_txt', action='store_const', const=True)
     parser.add_argument('--all_books', action='store_const', const=True)
-    parser.add_argument('--json_path', type=str, default='jsons')
+    parser.add_argument('--json_path', type=str, default='')
     parser.add_argument('--dest_folder', type=str, default='downloads', help='destination folder')
 
     return parser.parse_args()
