@@ -76,7 +76,7 @@ def parse_args():
             Данный скрипт скачивает книги определенного жанра с сайта http://tululu.org/.
             
             Жанр по умолчанию - фантастика (genre_id=55).
-            Чтобы скачать ВСЕ книги выбранного жанра, нужно указать параметр `--end_page 0`.
+            Чтобы скачать ВСЕ книги выбранного жанра, нужно указать параметр `--all_books`.
             '''
     )
 
@@ -88,6 +88,7 @@ def parse_args():
 
     parser.add_argument('--skip_imgs', action='store_const', const=True)
     parser.add_argument('--skip_txt', action='store_const', const=True)
+    parser.add_argument('--all_books', action='store_const', const=True)
     parser.add_argument('--json_path', type=str, default='jsons')
     parser.add_argument('--dest_folder', type=str, default='downloads', help='destination folder')
 
@@ -97,10 +98,12 @@ def parse_args():
 def main():
     args = parse_args()
 
+    end_page = 0 if args.all_books else args.end_page
+
     json_path = download_books_by_genre(
         args.genre_id,
         args.start_page,
-        args.end_page,
+        end_page,
         args.skip_imgs,
         args.skip_txt,
         json_path=args.json_path,
