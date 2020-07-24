@@ -101,11 +101,12 @@ def main():
     if args.start_page > args.end_page:
         raise ValueError('Параметр start_page не может быть больше end_page.')
 
+    start_page = 1 if args.all_books else args.start_page
     end_page = 0 if args.all_books else args.end_page
 
     json_path = download_books_by_genre(
         args.genre_id,
-        args.start_page,
+        start_page,
         end_page,
         args.skip_imgs,
         args.skip_txt,
