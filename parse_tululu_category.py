@@ -1,5 +1,6 @@
 import os
 import json
+from time import sleep
 
 import argparse
 import requests
@@ -35,8 +36,10 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0,
     book_ids = get_book_ids_by_genre(genre_id, start_page, end_page)
 
     downloaded_books = []
-    for book_id in tqdm(book_ids, desc='download_books'):
 
+    pbar = tqdm(book_ids, desc='download_books')
+    while book_ids:
+        book_id = book_ids.pop()
         book_url = 'http://tululu.org/b{}/'.format(book_id)
 
         try:
@@ -44,12 +47,18 @@ def download_books_by_genre(genre_id, start_page=1, end_page=0,
             downloaded_books.append(book)
 
             tqdm.write('{} OK'.format(book_url))
+            pbar.update()
 
         except (requests.exceptions.ConnectionError, requests.exceptions.ChunkedEncodingError, ConnectionError) as err:
-            pass
+            book_ids.add(book_id)
+
+            seconds = 5
+            tqdm.write('The request will be repeated in {} seconds.\n{}'.format(seconds, err))
+            sleep(seconds)
 
         except requests.HTTPError:
             tqdm.write('{} Error'.format(book_url))
+            pbar.update()
             continue
 
     json_folder = json_path or dest_folder
