@@ -13,7 +13,7 @@ def get_book_data(book_id, hostname='http://tululu.org'):
     soup = BeautifulSoup(response.text, 'lxml')
 
     h1 = soup.select_one('#content h1')
-    title, author = get_name_and_author_from_title(h1.text)
+    title, author = get_title_and_author_from_header(h1.text)
 
     img_src = soup.select_one('.bookimage a img')['src']
     img_url = urljoin(hostname, img_src)
@@ -32,5 +32,5 @@ def get_book_data(book_id, hostname='http://tululu.org'):
             }
 
 
-def get_name_and_author_from_title(book_title):
-    return book_title.split(' \xa0 :: \xa0 ')
+def get_title_and_author_from_header(text):
+    return text.split(' \xa0 :: \xa0 ')
