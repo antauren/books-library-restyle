@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
+from handler import raise_for_status
 from tululu import download_book
 
 
@@ -15,7 +16,7 @@ def get_book_ids_by_genre(genre_id, start_page=1, end_page=0) -> set:
     url = 'http://tululu.org/l{genre_id}/{page_num}/'.format(genre_id=genre_id, page_num=start_page)
 
     response = requests.get(url)
-    response.raise_for_status()
+    raise_for_status(response)
 
     soup = BeautifulSoup(response.text, 'lxml')
 
