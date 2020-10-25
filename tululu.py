@@ -7,6 +7,8 @@ from pathvalidate import sanitize_filename
 
 from tululu_parser import get_book_data
 
+from handler import raise_for_status
+
 
 def download_file(url, file_path, allow_redirects=False):
     response = requests.get(url, allow_redirects=allow_redirects)
@@ -64,12 +66,3 @@ def download_book(book_id, skip_imgs=False, skip_txt=False, dest_folder='downloa
             'img_src': os.path.join(dest_folder, img_src),
             'book_path': os.path.join(dest_folder, book_path),
             }
-
-
-def raise_for_status(response):
-    response.raise_for_status()
-
-    if response.status_code != 200:
-        raise requests.HTTPError(
-            'Status code is {} (200 required).'.format(response.status_code)
-        )
