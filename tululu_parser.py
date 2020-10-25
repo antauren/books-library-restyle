@@ -2,13 +2,14 @@ import requests
 from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
+from handler import raise_for_status
 
 
 def get_book_data(book_id, hostname='http://tululu.org'):
     url = '{hostname}/b{book_id}/'.format(hostname=hostname, book_id=book_id)
 
     response = requests.get(url)
-    response.raise_for_status()
+    raise_for_status(response)
 
     soup = BeautifulSoup(response.text, 'lxml')
 
