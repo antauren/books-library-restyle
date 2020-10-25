@@ -18,7 +18,7 @@ def get_book_data(book_id, hostname='http://tululu.org'):
     title, author = get_title_and_author_from_header(h1.text)
 
     img_src = soup.select_one('.bookimage a img')['src']
-    img_url = urljoin(hostname, img_src)
+    img_url = urljoin(response.url, img_src)
 
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres = [anchor.text for anchor in soup.find(text='Жанр книги:').parent.findNextSiblings('a')]
