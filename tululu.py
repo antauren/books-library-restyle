@@ -1,13 +1,11 @@
 import os
-
-import requests
 from urllib.parse import urlparse
 
+import requests
 from pathvalidate import sanitize_filename
 
-from tululu_parser import get_book_data
-
 from handler import raise_for_status
+from tululu_parser import get_book_data
 
 
 def download_file(url, file_path, allow_redirects=False):

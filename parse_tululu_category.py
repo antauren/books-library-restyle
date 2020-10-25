@@ -1,12 +1,12 @@
+import argparse
+import json
 import os
 import re
-import json
 from time import sleep
 
-import argparse
 import requests
-from tqdm import tqdm
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 from tululu import download_book
 

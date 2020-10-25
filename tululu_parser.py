@@ -1,7 +1,8 @@
-import requests
 from urllib.parse import urljoin
 
+import requests
 from bs4 import BeautifulSoup
+
 from handler import raise_for_status
 
 
