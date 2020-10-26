@@ -23,7 +23,7 @@ def get_book_data(book_id, hostname='http://tululu.org'):
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres = [anchor.text for anchor in soup.find(text='Жанр книги:').parent.findNextSiblings('a')]
 
-    txt_url = '{hostname}/txt.php?id={book_id}'.format(hostname=hostname, book_id=book_id)
+    txt_url = urljoin(response.url, '/txt.php?id={}'.format(book_id))
 
     return {'title': title,
             'author': author,
